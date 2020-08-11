@@ -28,11 +28,22 @@
     display: block;
   }
 }
-@media (max-width: 522px) {
+@media (max-width: 550px) {
+  #btn-add-media {
+    display: none;
+  }
+  .container {
+    position: relative;
+  }
+  #btn-add-mobile {
+    display: block;
+  }
   #header-search {
     display: none;
   }
-
+  #header-container {
+    margin-top: 0;
+  }
   #header-container h1 {
     font-size: 1.5rem;
   }
@@ -43,5 +54,8 @@
 
   #notes {
     justify-content: center;
+  }
+  #tags {
+    margin-top: 2rem;
   }
 }

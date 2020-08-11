@@ -121,7 +121,21 @@ body {
   margin: 0;
 }
 
-#btn-add-media {
+#btn-add-mobile {
+  border: none;
+  outline: none;
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  font-size: 2rem;
+  position: fixed;
+  bottom: 5%;
+  left: 90%;
+  margin: 0 0 0 -10%;
+}
+
+#btn-add-media,
+#btn-add-mobile {
   display: none;
 }
 

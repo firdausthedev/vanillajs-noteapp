@@ -1,0 +1,47 @@
+@media (max-width: 950px) {
+  .header-box {
+    width: auto;
+    height: 3rem;
+  }
+  #header-profile img {
+    height: 2rem;
+    width: auto;
+  }
+  #header-profile h2 {
+    display: none;
+  }
+
+  #header-container h1 {
+    font-size: 2rem;
+  }
+}
+@media (max-width: 737px) {
+  #btn-add {
+    display: none;
+  }
+  .btn {
+    padding: 10px 20px;
+    border-radius: 20px;
+    margin-right: 0.5rem;
+  }
+  #btn-add-media {
+    display: block;
+  }
+}
+@media (max-width: 522px) {
+  #header-search {
+    display: none;
+  }
+
+  #header-container h1 {
+    font-size: 1.5rem;
+  }
+  #buttons-container .btn:nth-child(2),
+  #buttons-container .btn:nth-child(3) {
+    display: none;
+  }
+
+  #notes {
+    justify-content: center;
+  }
+}

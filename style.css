@@ -1,0 +1,188 @@
+/* https://coolors.co/03045e-023e8a-0077b6-0096c7-00b4d8-48cae4-90e0ef-ade8f4-caf0f8 */
+
+:root {
+  --accent-color: #70d8eb;
+  --bg-color: #edfafd;
+  --text-black: #444;
+  --text-gray: #777;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  line-height: 1.2;
+  background-color: var(--bg-color);
+}
+
+.container {
+  max-width: 1200px;
+  padding: 20px;
+  margin: auto;
+}
+
+.shadow {
+  box-shadow: 0 3px 8px 0 rgba(194, 194, 194, 0.2);
+}
+
+.header-box {
+  padding: 10px 20px;
+  border-radius: 50px;
+  width: 300px;
+  height: 4rem;
+  background-color: white;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn {
+  border: none;
+  outline: none;
+  padding: 10px 40px;
+  border-radius: 50px;
+  background-color: white;
+  font-family: 'Inter', sans-serif;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+.btn:hover {
+  background-color: var(--accent-color);
+  color: white;
+  transition: 0.5s;
+}
+
+.btn-active {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+/* Header */
+#header-container {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#header-container h1 {
+  color: var(--text-black);
+  font-weight: 700;
+  font-size: 3rem;
+  letter-spacing: 0.5px;
+}
+
+#header-container span {
+  color: var(--accent-color);
+}
+
+#header-group {
+  display: flex;
+  align-items: center;
+}
+
+#header-search input {
+  outline: none;
+  border: none;
+  height: inherit;
+  width: inherit;
+  font-size: 1rem;
+}
+
+#header-profile {
+  margin-left: 1rem;
+}
+
+#header-profile h2 {
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  font-size: 1rem;
+}
+
+#header-profile img {
+  height: 3rem;
+  width: auto;
+}
+
+/* Section: Tags */
+#tags {
+  margin-top: 6rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+#btn-add {
+  margin: 0;
+}
+
+#btn-add-media {
+  display: none;
+}
+
+/* Section: Notes */
+#notes {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.note {
+  height: 220px;
+  width: 240px;
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  margin-right: 1rem;
+  margin-top: 1rem;
+}
+
+.note-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.circle {
+  background-color: var(--accent-color);
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  margin-right: 0.5rem;
+}
+
+.note-title h2 {
+  font-size: 1.1rem;
+  font-weight: 100;
+  color: var(--text-black);
+  letter-spacing: 0.5px;
+}
+
+.note-para {
+  color: var(--text-gray);
+  font-size: 0.9rem;
+  text-align: left;
+  letter-spacing: 0.5px;
+}
+
+.circle-red {
+  background-color: #e8505b;
+}
+.circle-pink {
+  background-color: #f96d80;
+}
+.circle-yellow {
+  background-color: #ffd31d;
+}
+.circle-green {
+  background-color: #00cc66;
+}
+.circle-blue {
+  background-color: #0077b6;
+}

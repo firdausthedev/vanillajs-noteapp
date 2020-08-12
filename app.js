@@ -11,7 +11,7 @@ const getSavedNotes = () => {
   const notesJSON = localStorage.getItem('notes')
   try {
     return notesJSON ? JSON.parse(notesJSON) : []
-  } catch (e) {
+  } catch {
     return []
   }
 }
@@ -27,13 +27,16 @@ const createNewNoteElements = (note) => {
   cicleTitleNote.className = `circle ${note.tag}`
 
   textTitleNote = document.createElement('h2')
-  textTitleNote.appendChild(document.createTextNode(note.title))
+  const text = note.title.length > 12 ? `${note.title.substring(0, 12)}...` : note.title
+
+  textTitleNote.appendChild(document.createTextNode(text))
 
   titleNote.appendChild(cicleTitleNote)
   titleNote.appendChild(textTitleNote)
 
   contentNote = document.createElement('p')
-  contentNote.appendChild(document.createTextNode(note.content))
+  const content = note.content.length > 136 ? `${note.content.substring(0, 136)}...` : note.content
+  contentNote.appendChild(document.createTextNode(content))
   contentNote.className = 'note-para'
 
   baseNote.appendChild(titleNote)
@@ -48,8 +51,31 @@ notes.forEach((note) => {
   createNewNoteElements(note)
 })
 
+const setListenerOnNote = () => {
+  const noteSelected = document.querySelectorAll('.note')
+  noteSelected.forEach((note, index) => {
+    note.addEventListener('click', (event) => {
+      if (index !== 0) {
+        addNoteModal.style.display = 'block'
+        addBtnModal.style.display = 'none'
+        document.querySelector('#modal-title h2').innerHTML = 'Note Details'
+        titleInput.value = notes[index - 1].title
+        contentInput.value = notes[index - 1].content
+      }
+    })
+  })
+}
+
+document.addEventListener('DOMContentLoaded', (event) => {
+  setListenerOnNote()
+})
+
 addBtn.addEventListener('click', (event) => {
   addNoteModal.style.display = 'block'
+  addBtnModal.style.display = 'block'
+  document.querySelector('#modal-title h2').innerHTML = 'Add A Note'
+  titleInput.value = ''
+  contentInput.value = ''
 })
 
 closeBtnModal.addEventListener('click', (event) => {
@@ -70,4 +96,5 @@ addBtnModal.addEventListener('click', () => {
   contentInput.value = ''
 
   addNoteModal.style.display = 'none'
+  setListenerOnNote()
 })

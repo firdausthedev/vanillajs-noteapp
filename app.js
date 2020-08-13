@@ -1,7 +1,11 @@
 const addBtn = document.querySelector('#btn-add')
+
 const addNoteModal = document.querySelector('#add-note-modal')
 const closeBtnModal = document.querySelector('#modal-title .close')
-const addBtnModal = document.querySelector('#modal-form button')
+const addBtnModal = document.querySelector('#add-btn')
+const editBtnModal = document.querySelector('#edit-btn')
+const deleteBtnModal = document.querySelector('#delete-btn')
+
 const titleInput = document.querySelector('#modal-form-title')
 const contentInput = document.querySelector('#modal-form-content')
 
@@ -58,9 +62,37 @@ const setListenerOnNote = () => {
       if (index !== 0) {
         addNoteModal.style.display = 'block'
         addBtnModal.style.display = 'none'
+        editBtnModal.style.display = 'inline-block'
+        deleteBtnModal.style.display = 'inline-block'
+
         document.querySelector('#modal-title h2').innerHTML = 'Note Details'
+
         titleInput.value = notes[index - 1].title
         contentInput.value = notes[index - 1].content
+
+        editBtnModal.addEventListener('click', (event) => {
+          const noteTitle = titleInput.value
+          const noteContent = contentInput.value
+          const noteCircle = notes[index - 1].tag
+          const newNote = { title: noteTitle, content: noteContent, tag: noteCircle }
+          const editedNote = [...notes]
+          editedNote[index - 1] = newNote
+          localStorage.setItem('notes', JSON.stringify(editedNote))
+          addNoteModal.style.display = 'none'
+          editBtnModal.style.display = 'none'
+          deleteBtnModal.style.display = 'none'
+          location.reload()
+        })
+
+        deleteBtnModal.addEventListener('click', (event) => {
+          const prevNotes = [...notes]
+          deletedNotes = prevNotes.filter((note, i) => i !== index - 1)
+          localStorage.setItem('notes', JSON.stringify(deletedNotes))
+          addNoteModal.style.display = 'none'
+          editBtnModal.style.display = 'none'
+          deleteBtnModal.style.display = 'none'
+          location.reload()
+        })
       }
     })
   })
@@ -80,6 +112,8 @@ addBtn.addEventListener('click', (event) => {
 
 closeBtnModal.addEventListener('click', (event) => {
   addNoteModal.style.display = 'none'
+  editBtnModal.style.display = 'none'
+  deleteBtnModal.style.display = 'none'
 })
 
 addBtnModal.addEventListener('click', () => {

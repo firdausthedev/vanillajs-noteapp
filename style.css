@@ -62,6 +62,18 @@ body {
   color: white;
 }
 
+.btn-edit,
+.btn-edit:hover {
+  background-color: #00cc66;
+  color: white;
+}
+
+.btn-delete,
+.btn-delete:hover {
+  background-color: #e8505b;
+  color: white;
+}
+
 /* Header */
 #header-container {
   margin-top: 2rem;
@@ -238,10 +250,19 @@ body {
   height: unset;
 }
 
-#modal-form button {
+#modal-form #buttons {
   align-self: flex-end;
-  margin: 0;
 }
+
+#modal-form #buttons > * {
+  margin-right: 0;
+}
+
+#delete-btn,
+#edit-btn {
+  display: none;
+}
+
 .close {
   display: flex;
   align-items: center;

@@ -49,6 +49,12 @@ const createNewNoteElements = (note) => {
   document.querySelector('#notes').appendChild(baseNote)
 }
 
+const hideUI = () => {
+  addNoteModal.style.display = 'none'
+  editBtnModal.style.display = 'none'
+  deleteBtnModal.style.display = 'none'
+}
+
 const notes = getSavedNotes()
 
 notes.forEach((note) => {
@@ -78,9 +84,7 @@ const setListenerOnNote = () => {
           const editedNote = [...notes]
           editedNote[index - 1] = newNote
           localStorage.setItem('notes', JSON.stringify(editedNote))
-          addNoteModal.style.display = 'none'
-          editBtnModal.style.display = 'none'
-          deleteBtnModal.style.display = 'none'
+          hideUI()
           location.reload()
         })
 
@@ -88,9 +92,7 @@ const setListenerOnNote = () => {
           const prevNotes = [...notes]
           deletedNotes = prevNotes.filter((note, i) => i !== index - 1)
           localStorage.setItem('notes', JSON.stringify(deletedNotes))
-          addNoteModal.style.display = 'none'
-          editBtnModal.style.display = 'none'
-          deleteBtnModal.style.display = 'none'
+          hideUI()
           location.reload()
         })
       }
@@ -111,9 +113,7 @@ addBtn.addEventListener('click', (event) => {
 })
 
 closeBtnModal.addEventListener('click', (event) => {
-  addNoteModal.style.display = 'none'
-  editBtnModal.style.display = 'none'
-  deleteBtnModal.style.display = 'none'
+  hideUI()
 })
 
 addBtnModal.addEventListener('click', () => {

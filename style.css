@@ -263,6 +263,10 @@ body {
   display: none;
 }
 
+#modal-form #buttons #delete-btn {
+  margin-right: 1rem;
+}
+
 .close {
   display: flex;
   align-items: center;

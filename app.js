@@ -11,10 +11,6 @@ const contentInput = document.querySelector('#modal-form-content')
 
 const circles = ['circle-red', 'circle-blue', 'circle-pink', 'circle-yellow', 'circle-green']
 
-document.addEventListener('DOMContentLoaded', (event) => {
-  createNotes(notes)
-})
-
 // get notes from local storage
 const getSavedNotes = () => {
   const notesJSON = localStorage.getItem('notes')
@@ -26,25 +22,27 @@ const getSavedNotes = () => {
 }
 
 // get list of notes
-const notes = getSavedNotes()
+let notes = getSavedNotes()
+let currentNoteID
+
+document.addEventListener('DOMContentLoaded', (event) => {
+  createNotes(notes)
+})
 
 // create list of notes elements
 const createNotes = (notes, list) => {
   if (list) {
     notes.forEach((note, index) => {
-      createNewNote(note, list[index])
+      createNote(note, list[index])
     })
   } else {
     notes.forEach((note, index) => {
-      createNewNote(note, index)
+      createNote(note, index)
     })
   }
-
-  setListenerOnNote(notes)
 }
 
-// create note elements
-const createNewNote = (note, index) => {
+const createNote = (note, index) => {
   baseNote = document.createElement('div')
   baseNote.className = 'note shadow'
   baseNote.id = index
@@ -74,54 +72,66 @@ const createNewNote = (note, index) => {
   document.querySelector('#notes').appendChild(baseNote)
 }
 
-// set onclick listener to every note
-const setListenerOnNote = (currentNotes) => {
-  const noteSelected = document.querySelectorAll('.note')
-  noteSelected.forEach((note, index) => {
-    note.addEventListener('click', (event) => {
-      if (index !== 0) {
-        const id = note.id
-        noteModal.style.display = 'block'
-        addBtnModal.style.display = 'none'
-        editBtnModal.style.display = 'inline-block'
-        deleteBtnModal.style.display = 'inline-block'
+document.getElementById('notes').addEventListener('click', (e) => {
+  if (e.target.classList.contains('note')) {
+    currentNoteID = e.target.id
+    if (currentNoteID) {
+      noteModal.style.display = 'block'
+      addBtnModal.style.display = 'none'
+      editBtnModal.style.display = 'inline-block'
+      deleteBtnModal.style.display = 'inline-block'
 
-        document.querySelector('#modal-title h2').innerHTML = 'Note Details'
+      document.querySelector('#modal-title h2').innerHTML = 'Note Details'
 
-        titleInput.value = currentNotes[index - 1].title
-        contentInput.value = currentNotes[index - 1].content
+      titleInput.value = notes[currentNoteID].title
+      contentInput.value = notes[currentNoteID].content
+    }
+  }
+})
 
-        editBtnModal.addEventListener('click', (event) => {
-          editNoteByIndex(notes, id)
-        })
-
-        deleteBtnModal.addEventListener('click', (event) => {
-          deleteNoteByIndex(notes, id)
-        })
-      }
-    })
+// search note based on title
+searchInput.addEventListener('keyup', (event) => {
+  const searchKey = event.target.value
+  const notesToSearch = [...notes]
+  const filteredNotes = notesToSearch.filter((note) => note.title.includes(searchKey))
+  let list = []
+  notesToSearch.findIndex((note, index) => {
+    if (note.title.includes(searchKey)) {
+      list.push(index)
+    }
   })
-}
+  if (searchKey === '') {
+    list = undefined
+  }
+  resetNotes()
+  createNotes(filteredNotes, list)
+})
 
-const deleteNoteByIndex = (notes, id) => {
+deleteBtnModal.addEventListener('click', (e) => {
   const prevNotes = [...notes]
-  prevNotes.pop(id)
+  prevNotes.pop(currentNoteID)
   localStorage.setItem('notes', JSON.stringify(prevNotes))
   hideUI()
-  location.reload()
-}
+  resetNotes()
+  notes = getSavedNotes()
+  createNotes(notes)
+  searchInput.value = ''
+})
 
-const editNoteByIndex = (notes, id) => {
+editBtnModal.addEventListener('click', (event) => {
   const noteTitle = titleInput.value
   const noteContent = contentInput.value
-  const noteCircle = notes[id].tag
+  const noteCircle = notes[currentNoteID].tag
   const newNote = { title: noteTitle, content: noteContent, tag: noteCircle }
   const editedNote = [...notes]
-  editedNote[id] = newNote
+  editedNote[currentNoteID] = newNote
   localStorage.setItem('notes', JSON.stringify(editedNote))
   hideUI()
-  location.reload()
-}
+  resetNotes()
+  notes = getSavedNotes()
+  createNotes(notes)
+  searchInput.value = ''
+})
 
 addNewNoteButton.addEventListener('click', (event) => {
   noteModal.style.display = 'block'
@@ -129,11 +139,6 @@ addNewNoteButton.addEventListener('click', (event) => {
   document.querySelector('#modal-title h2').innerHTML = 'Add A Note'
   titleInput.value = ''
   contentInput.value = ''
-})
-
-// close modal if x icon is clicked
-closeBtnModal.addEventListener('click', (event) => {
-  hideUI()
 })
 
 addBtnModal.addEventListener('click', () => {
@@ -144,45 +149,27 @@ addBtnModal.addEventListener('click', () => {
 
   notes.push(newNote)
   localStorage.setItem('notes', JSON.stringify(notes))
-  createNewNote(newNote)
+  createNote(newNote, notes.length - 1)
 
   titleInput.value = ''
   contentInput.value = ''
 
   noteModal.style.display = 'none'
-  setListenerOnNote(notes)
 })
 
-// search note based on title
-searchInput.addEventListener('keyup', (event) => {
-  const searchKey = event.target.value
-  const notesToSearch = [...notes]
-  const filteredNotes = notesToSearch.filter((note) => note.title.includes(searchKey))
-  var list = []
-  notesToSearch.findIndex((note, index) => {
-    if (note.title.includes(searchKey)) {
-      list.push(index)
-    }
-  })
-  if (searchKey === '') {
-    list = undefined
-  }
-
-  document.querySelectorAll('.note').forEach((note, index) => {
-    if (index !== 0) note.remove()
-  })
-
-  createNotes(filteredNotes, list)
+// close modal if x icon is clicked
+closeBtnModal.addEventListener('click', (event) => {
+  hideUI()
 })
 
-// // closes modal if modal background is clicked
-// noteModal.addEventListener('click', (event) => {
-//   if (event.srcElement.id === 'add-note-modal') hideUI()
-// })
-
-// hides modal and buttons
 const hideUI = () => {
   noteModal.style.display = 'none'
   editBtnModal.style.display = 'none'
   deleteBtnModal.style.display = 'none'
+}
+
+const resetNotes = () => {
+  document.querySelectorAll('.note').forEach((note, index) => {
+    if (index !== 0) note.remove()
+  })
 }

@@ -9513,7 +9513,7 @@ var searchInput = document.querySelector('#header-search input');
 var titleInput = document.querySelector('#modal-form-title');
 var contentInput = document.querySelector('#modal-form-content');
 
-var circles = ['circle-red', 'circle-blue', 'circle-pink', 'circle-yellow', 'circle-green'];
+var circles = ['circle-red', 'circle-blue', 'circle-pink', 'circle-yellow', 'circle-green', ''];
 
 // get notes from local storage
 var getSavedNotes = function getSavedNotes() {
@@ -9550,29 +9550,9 @@ var createNote = function createNote(note, index) {
   var baseNote = document.createElement('div');
   baseNote.className = 'note shadow';
   baseNote.id = index;
-
-  var titleNote = document.createElement('div');
-  titleNote.className = 'note-title';
-
-  var cicleTitleNote = document.createElement('div');
-  cicleTitleNote.className = 'circle ' + note.tag;
-
-  var textTitleNote = document.createElement('h2');
   var text = note.title.length > 12 ? note.title.substring(0, 12) + '...' : note.title;
-
-  textTitleNote.appendChild(document.createTextNode(text));
-
-  titleNote.appendChild(cicleTitleNote);
-  titleNote.appendChild(textTitleNote);
-
-  var contentNote = document.createElement('p');
   var content = note.content.length > 136 ? note.content.substring(0, 136) + '...' : note.content;
-  contentNote.appendChild(document.createTextNode(content));
-  contentNote.className = 'note-para';
-
-  baseNote.appendChild(titleNote);
-  baseNote.appendChild(contentNote);
-
+  baseNote.innerHTML = '\n    <div class="note-title">\n      <div class="circle ' + note.tag + '"></div>\n      <h2>' + text + '</h2> \n    </div>\n    <p class="note-para">\n      ' + content + '\n    </p> \n  ';
   document.querySelector('#notes').appendChild(baseNote);
 };
 
@@ -9600,6 +9580,7 @@ searchInput.addEventListener('keyup', function (event) {
   var filteredNotes = notesToSearch.filter(function (note) {
     return note.title.includes(searchKey);
   });
+
   var list = [];
   notesToSearch.findIndex(function (note, index) {
     if (note.title.includes(searchKey)) {
@@ -9637,6 +9618,7 @@ editBtnModal.addEventListener('click', function (event) {
   resetNotes();
   notes = getSavedNotes();
   createNotes(notes);
+
   searchInput.value = '';
 });
 

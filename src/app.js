@@ -9,7 +9,7 @@ const searchInput = document.querySelector('#header-search input')
 const titleInput = document.querySelector('#modal-form-title')
 const contentInput = document.querySelector('#modal-form-content')
 
-const circles = ['circle-red', 'circle-blue', 'circle-pink', 'circle-yellow', 'circle-green']
+const circles = ['circle-red', 'circle-blue', 'circle-pink', 'circle-yellow', 'circle-green', '']
 
 // get notes from local storage
 const getSavedNotes = () => {
@@ -46,29 +46,17 @@ const createNote = (note, index) => {
   const baseNote = document.createElement('div')
   baseNote.className = 'note shadow'
   baseNote.id = index
-
-  const titleNote = document.createElement('div')
-  titleNote.className = 'note-title'
-
-  const cicleTitleNote = document.createElement('div')
-  cicleTitleNote.className = `circle ${note.tag}`
-
-  const textTitleNote = document.createElement('h2')
   const text = note.title.length > 12 ? `${note.title.substring(0, 12)}...` : note.title
-
-  textTitleNote.appendChild(document.createTextNode(text))
-
-  titleNote.appendChild(cicleTitleNote)
-  titleNote.appendChild(textTitleNote)
-
-  const contentNote = document.createElement('p')
   const content = note.content.length > 136 ? `${note.content.substring(0, 136)}...` : note.content
-  contentNote.appendChild(document.createTextNode(content))
-  contentNote.className = 'note-para'
-
-  baseNote.appendChild(titleNote)
-  baseNote.appendChild(contentNote)
-
+  baseNote.innerHTML = `
+    <div class="note-title">
+      <div class="circle ${note.tag}"></div>
+      <h2>${text}</h2> 
+    </div>
+    <p class="note-para">
+      ${content}
+    </p> 
+  `
   document.querySelector('#notes').appendChild(baseNote)
 }
 
@@ -94,6 +82,7 @@ searchInput.addEventListener('keyup', (event) => {
   const searchKey = event.target.value
   const notesToSearch = [...notes]
   const filteredNotes = notesToSearch.filter((note) => note.title.includes(searchKey))
+
   let list = []
   notesToSearch.findIndex((note, index) => {
     if (note.title.includes(searchKey)) {
@@ -131,6 +120,7 @@ editBtnModal.addEventListener('click', (event) => {
   resetNotes()
   notes = getSavedNotes()
   createNotes(notes)
+
   searchInput.value = ''
 })
 

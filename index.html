@@ -18,7 +18,14 @@
             <span class="close">&times;</span>
           </div>
           <div id="modal-form">
-            <input type="text" name="title" id="modal-form-title" placeholder="Title" class="shadow" />
+            <input
+              type="text"
+              name="title"
+              id="modal-form-title"
+              placeholder="Title..."
+              class="shadow"
+              autocomplete="off"
+            />
             <textarea
               name="content"
               id="modal-form-content"
@@ -26,6 +33,7 @@
               rows="10"
               class="shadow"
               placeholder="Write something..."
+              autocomplete="off"
             ></textarea>
             <div id="buttons">
               <button id="add-btn" class="btn btn-active shadow">Add</button>
@@ -39,7 +47,7 @@
         <h1>Note<span>App</span></h1>
         <div id="header-group">
           <div id="header-search" class="shadow header-box">
-            <input type="text" name="search" placeholder="Search" />
+            <input type="text" name="search" placeholder="Search" autocomplete="off" />
           </div>
           <div id="header-profile" class="shadow header-box">
             <h2>User Name</h2>

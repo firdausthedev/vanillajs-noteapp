@@ -152,6 +152,13 @@ body {
   overflow: auto;
 }
 
+.note:hover,
+.note:focus {
+  transition: 1s;
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
 .note-title {
   display: flex;
   align-items: center;

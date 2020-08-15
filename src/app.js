@@ -16,7 +16,7 @@ const getSavedNotes = () => {
   const notesJSON = localStorage.getItem('notes')
   try {
     return notesJSON ? JSON.parse(notesJSON) : []
-  } catch {
+  } catch (e) {
     return []
   }
 }
@@ -43,17 +43,17 @@ const createNotes = (notes, list) => {
 }
 
 const createNote = (note, index) => {
-  baseNote = document.createElement('div')
+  const baseNote = document.createElement('div')
   baseNote.className = 'note shadow'
   baseNote.id = index
 
-  titleNote = document.createElement('div')
+  const titleNote = document.createElement('div')
   titleNote.className = 'note-title'
 
-  cicleTitleNote = document.createElement('div')
+  const cicleTitleNote = document.createElement('div')
   cicleTitleNote.className = `circle ${note.tag}`
 
-  textTitleNote = document.createElement('h2')
+  const textTitleNote = document.createElement('h2')
   const text = note.title.length > 12 ? `${note.title.substring(0, 12)}...` : note.title
 
   textTitleNote.appendChild(document.createTextNode(text))
@@ -61,7 +61,7 @@ const createNote = (note, index) => {
   titleNote.appendChild(cicleTitleNote)
   titleNote.appendChild(textTitleNote)
 
-  contentNote = document.createElement('p')
+  const contentNote = document.createElement('p')
   const content = note.content.length > 136 ? `${note.content.substring(0, 136)}...` : note.content
   contentNote.appendChild(document.createTextNode(content))
   contentNote.className = 'note-para'
@@ -122,7 +122,8 @@ editBtnModal.addEventListener('click', (event) => {
   const noteTitle = titleInput.value
   const noteContent = contentInput.value
   const noteCircle = notes[currentNoteID].tag
-  const newNote = { title: noteTitle, content: noteContent, tag: noteCircle }
+  // const newNote = { title: noteTitle, content: noteContent, tag: noteCircle }
+  const newNote = new Note(noteTitle, noteContent, noteCircle)
   const editedNote = [...notes]
   editedNote[currentNoteID] = newNote
   localStorage.setItem('notes', JSON.stringify(editedNote))
@@ -145,8 +146,7 @@ addBtnModal.addEventListener('click', () => {
   const noteTitle = titleInput.value
   const noteContent = contentInput.value
   const randomCircle = Math.floor(Math.random() * circles.length)
-  const newNote = { title: noteTitle, content: noteContent, tag: circles[randomCircle] }
-
+  const newNote = new Note(noteTitle, noteContent, circles[randomCircle])
   notes.push(newNote)
   localStorage.setItem('notes', JSON.stringify(notes))
   createNote(newNote, notes.length - 1)
@@ -172,4 +172,12 @@ const resetNotes = () => {
   document.querySelectorAll('.note').forEach((note, index) => {
     if (index !== 0) note.remove()
   })
+}
+
+class Note {
+  constructor(title, content, tag) {
+    this.title = title
+    this.content = content
+    this.tag = tag
+  }
 }

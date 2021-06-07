@@ -382,7 +382,7 @@ module.exports = Object.getPrototypeOf || function (O) {
 /* 18 */
 /***/ (function(module, exports) {
 
-var core = module.exports = { version: '2.6.11' };
+var core = module.exports = { version: '2.6.12' };
 if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 
@@ -1463,7 +1463,7 @@ var store = global[SHARED] || (global[SHARED] = {});
 })('versions', []).push({
   version: core.version,
   mode: __webpack_require__(29) ? 'pure' : 'global',
-  copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
+  copyright: '© 2020 Denis Pushkarev (zloirock.ru)'
 });
 
 
@@ -7598,8 +7598,13 @@ __webpack_require__(31)('flatten');
 // https://github.com/mathiasbynens/String.prototype.at
 var $export = __webpack_require__(0);
 var $at = __webpack_require__(55)(true);
+var $fails = __webpack_require__(3);
 
-$export($export.P, 'String', {
+var FORCED = $fails(function () {
+  return '𠮷'.at(0) !== '𠮷';
+});
+
+$export($export.P + $export.F * FORCED, 'String', {
   at: function at(pos) {
     return $at(this, pos);
   }
@@ -9556,21 +9561,30 @@ var createNote = function createNote(note, index) {
   document.querySelector('#notes').appendChild(baseNote);
 };
 
-document.getElementById('notes').addEventListener('click', function (e) {
+var viewNote = function viewNote(e) {
   if (e.target.classList.contains('note')) {
     currentNoteID = e.target.id;
-    if (currentNoteID) {
-      noteModal.style.display = 'block';
-      addBtnModal.style.display = 'none';
-      editBtnModal.style.display = 'inline-block';
-      deleteBtnModal.style.display = 'inline-block';
-
-      document.querySelector('#modal-title h2').innerHTML = 'Note Details';
-
-      titleInput.value = notes[currentNoteID].title;
-      contentInput.value = notes[currentNoteID].content;
-    }
+    getNoteByID(currentNoteID);
+  } else if (e.target.classList.contains('note-title') || e.target.classList.contains('note-para')) {
+    currentNoteID = e.target.parentElement.attributes.id.value;
+    getNoteByID(currentNoteID);
   }
+};
+
+var getNoteByID = function getNoteByID(id) {
+  noteModal.style.display = 'block';
+  addBtnModal.style.display = 'none';
+  editBtnModal.style.display = 'inline-block';
+  deleteBtnModal.style.display = 'inline-block';
+
+  document.querySelector('#modal-title h2').innerHTML = 'Note Details';
+
+  titleInput.value = notes[currentNoteID].title;
+  contentInput.value = notes[currentNoteID].content;
+};
+
+document.getElementById('notes').addEventListener('click', function (e) {
+  viewNote(e);
 });
 
 // search note based on title

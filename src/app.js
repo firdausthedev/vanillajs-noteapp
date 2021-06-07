@@ -25,7 +25,7 @@ const getSavedNotes = () => {
 let notes = getSavedNotes()
 let currentNoteID
 
-document.addEventListener('DOMContentLoaded', (event) => {
+document.addEventListener('DOMContentLoaded', event => {
   createNotes(notes)
 })
 
@@ -60,28 +60,37 @@ const createNote = (note, index) => {
   document.querySelector('#notes').appendChild(baseNote)
 }
 
-document.getElementById('notes').addEventListener('click', (e) => {
+const viewNote = e => {
   if (e.target.classList.contains('note')) {
     currentNoteID = e.target.id
-    if (currentNoteID) {
-      noteModal.style.display = 'block'
-      addBtnModal.style.display = 'none'
-      editBtnModal.style.display = 'inline-block'
-      deleteBtnModal.style.display = 'inline-block'
-
-      document.querySelector('#modal-title h2').innerHTML = 'Note Details'
-
-      titleInput.value = notes[currentNoteID].title
-      contentInput.value = notes[currentNoteID].content
-    }
+    getNoteByID(currentNoteID)
+  } else if (e.target.classList.contains('note-title') || e.target.classList.contains('note-para')) {
+    currentNoteID = e.target.parentElement.attributes.id.value
+    getNoteByID(currentNoteID)
   }
+}
+
+const getNoteByID = id => {
+  noteModal.style.display = 'block'
+  addBtnModal.style.display = 'none'
+  editBtnModal.style.display = 'inline-block'
+  deleteBtnModal.style.display = 'inline-block'
+
+  document.querySelector('#modal-title h2').innerHTML = 'Note Details'
+
+  titleInput.value = notes[currentNoteID].title
+  contentInput.value = notes[currentNoteID].content
+}
+
+document.getElementById('notes').addEventListener('click', e => {
+  viewNote(e)
 })
 
 // search note based on title
-searchInput.addEventListener('keyup', (event) => {
+searchInput.addEventListener('keyup', event => {
   const searchKey = event.target.value
   const notesToSearch = [...notes]
-  const filteredNotes = notesToSearch.filter((note) => note.title.includes(searchKey))
+  const filteredNotes = notesToSearch.filter(note => note.title.includes(searchKey))
 
   let list = []
   notesToSearch.findIndex((note, index) => {
@@ -96,7 +105,7 @@ searchInput.addEventListener('keyup', (event) => {
   createNotes(filteredNotes, list)
 })
 
-deleteBtnModal.addEventListener('click', (e) => {
+deleteBtnModal.addEventListener('click', e => {
   const prevNotes = [...notes]
   prevNotes.pop(currentNoteID)
   localStorage.setItem('notes', JSON.stringify(prevNotes))
@@ -107,7 +116,7 @@ deleteBtnModal.addEventListener('click', (e) => {
   searchInput.value = ''
 })
 
-editBtnModal.addEventListener('click', (event) => {
+editBtnModal.addEventListener('click', event => {
   const noteTitle = titleInput.value
   const noteContent = contentInput.value
   const noteCircle = notes[currentNoteID].tag
@@ -124,7 +133,7 @@ editBtnModal.addEventListener('click', (event) => {
   searchInput.value = ''
 })
 
-addNewNoteButton.addEventListener('click', (event) => {
+addNewNoteButton.addEventListener('click', event => {
   noteModal.style.display = 'block'
   addBtnModal.style.display = 'block'
   document.querySelector('#modal-title h2').innerHTML = 'Add A Note'
@@ -148,7 +157,7 @@ addBtnModal.addEventListener('click', () => {
 })
 
 // close modal if x icon is clicked
-closeBtnModal.addEventListener('click', (event) => {
+closeBtnModal.addEventListener('click', event => {
   hideUI()
 })
 

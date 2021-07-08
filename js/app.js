@@ -108,6 +108,21 @@ class UI {
       })
     }
   }
+
+  // Close menu
+  closeMenu() {
+    document.querySelector('.menu-wrap .toggler').checked = false
+    if (!document.querySelector('.menu-wrap .toggler').checked) {
+      document.querySelector('.menu').style.width = '0px'
+      document.querySelector('.container').style.margin = 'auto'
+    }
+  }
+
+  // Open Menu
+  openMenu() {
+    document.querySelector('.menu').style.width = '350px'
+    document.querySelector('.container').style.margin = 'auto auto auto 350px'
+  }
 }
 
 class Note {
@@ -229,4 +244,18 @@ document.querySelector('#delete-btn').addEventListener('click', e => {
 // Search input
 document.querySelector('#header-search input').addEventListener('keyup', e => {
   ui.searchInput(e)
+})
+
+// menu button is clicked
+document.querySelector('.menu-wrap .toggler').addEventListener('click', e => {
+  if (e.target.checked) {
+    ui.openMenu()
+  } else {
+    ui.closeMenu()
+  }
+})
+
+// menu sidebar close button is clicked
+document.querySelector('.menu .close-btn').addEventListener('click', e => {
+  ui.closeMenu()
 })

@@ -18,20 +18,12 @@
             <span class="close">&times;</span>
           </div>
           <div id="modal-form">
-            <input
-              type="text"
-              name="title"
-              id="modal-form-title"
-              placeholder="Title..."
-              class="shadow"
-              autocomplete="off"
-            />
+            <input type="text" name="title" id="modal-form-title" placeholder="Title..." autocomplete="off" />
             <textarea
               name="content"
               id="modal-form-content"
               cols="30"
               rows="10"
-              class="shadow"
               placeholder="Write something..."
               autocomplete="off"
             ></textarea>
@@ -49,12 +41,21 @@
           <div id="header-search" class="shadow header-box">
             <input type="text" name="search" placeholder="Search" autocomplete="off" />
           </div>
-          <div id="header-menu" class="shadow">
-            <div class="menu-wrap">
+          <div id="header-menu">
+            <div class="menu-wrap shadow">
               <input type="checkbox" class="toggler" />
               <div class="hamburger"><div></div></div>
               <div class="menu">
                 <span class="close-btn">&times;</span>
+                <div class="menu-item">
+                  <p>Dark Mode</p>
+                  <div class="dark-mode">
+                    <label class="theme-switch" for="checkbox">
+                      <input type="checkbox" id="checkbox" />
+                      <div class="slider round"></div>
+                    </label>
+                  </div>
+                </div>
                 <div class="menu-item bottom">
                   <img src="img/user-icon.png" alt="dev icon" />
                   <div class="dev-info">
@@ -81,19 +82,7 @@
 
           <button id="btn-add" class="btn btn-active shadow">+ <span>Add a new note</span></button>
         </section>
-        <section id="notes">
-          <div class="note shadow">
-            <div class="note-title">
-              <div class="circle"></div>
-              <h2>Note Title</h2>
-            </div>
-            <p class="note-para">
-              Made by firdausthedev. <br />
-              Thanks for using the note app! <br />
-              Checkout code at: <a href="https://github.com/firdausthedev/vanillajs-noteapp">link</a>
-            </p>
-          </div>
-        </section>
+        <section id="notes"></section>
       </main>
     </div>
 

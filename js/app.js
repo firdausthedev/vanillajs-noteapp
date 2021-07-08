@@ -92,7 +92,7 @@ class UI {
   // Remove deleted notes
   resetNotes() {
     document.querySelectorAll('.note').forEach((note, index) => {
-      if (index !== 0) note.remove()
+      note.remove()
     })
   }
 
@@ -115,13 +115,49 @@ class UI {
     if (!document.querySelector('.menu-wrap .toggler').checked) {
       document.querySelector('.menu').style.width = '0px'
       document.querySelector('.container').style.margin = 'auto'
+      document.querySelector('.menu-wrap').style.visibility = 'visible'
+      document.querySelector('#btn-add').style.visibility = 'visible'
     }
   }
 
   // Open Menu
   openMenu() {
-    document.querySelector('.menu').style.width = '350px'
-    document.querySelector('.container').style.margin = 'auto auto auto 350px'
+    if (window.matchMedia('(max-width: 1052px)').matches) {
+      document.querySelector('.menu').style.width = '100vw'
+      document.querySelector('.menu-wrap').style.visibility = 'hidden'
+    }
+    if (window.matchMedia('(max-width: 550px)').matches) {
+      document.querySelector('.menu').style.width = '100vw'
+      document.querySelector('.menu-wrap').style.visibility = 'hidden'
+      document.querySelector('#btn-add').style.visibility = 'hidden'
+    } else {
+      document.querySelector('.menu').style.width = '350px'
+      document.querySelector('.container').style.margin = 'auto auto auto 350px'
+    }
+  }
+
+  // Toggle theme
+  changeTheme(e) {
+    if (e.target.checked) {
+      document.documentElement.setAttribute('data-theme', 'dark')
+      localStorage.setItem('theme', 'dark')
+    }
+
+    if (!e.target.checked) {
+      document.documentElement.setAttribute('data-theme', 'light')
+      localStorage.setItem('theme', 'light')
+    }
+  }
+
+  loadTheme() {
+    const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null
+    if (currentTheme) {
+      document.documentElement.setAttribute('data-theme', currentTheme)
+
+      if (currentTheme === 'dark') {
+        document.querySelector('.theme-switch input[type="checkbox"]').checked = true
+      }
+    }
   }
 }
 
@@ -208,6 +244,7 @@ let currentId // used when user view and edit single note
 
 // DOM loaded
 document.addEventListener('DOMContentLoaded', event => {
+  ui.loadTheme()
   ui.loadNotes(notes.notes)
 })
 
@@ -258,4 +295,9 @@ document.querySelector('.menu-wrap .toggler').addEventListener('click', e => {
 // menu sidebar close button is clicked
 document.querySelector('.menu .close-btn').addEventListener('click', e => {
   ui.closeMenu()
+})
+
+// dark mode slider
+document.querySelector('.theme-switch input[type="checkbox"]').addEventListener('change', e => {
+  ui.changeTheme(e)
 })

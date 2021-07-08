@@ -62,16 +62,25 @@ body {
   color: white;
 }
 
-.btn-edit,
-.btn-edit:hover {
-  background-color: #00cc66;
+.btn-edit {
+  background-color: hsl(150, 100%, 40%);
   color: white;
 }
+.btn-edit:hover {
+  background-color: hsl(150, 100%, 30%);
+}
 
-.btn-delete,
-.btn-delete:hover {
-  background-color: #e8505b;
+.btn-delete {
+  background-color: hsl(356, 77%, 61%);
   color: white;
+}
+.btn-delete:hover {
+  background-color: hsl(356, 77%, 51%);
+}
+
+#btn-add:hover,
+.btn-active:hover {
+  background: hsla(189, 75%, 48%);
 }
 
 /* Header */

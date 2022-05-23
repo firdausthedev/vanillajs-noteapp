@@ -91,4 +91,7 @@
   #tags {
     margin-top: 2rem;
   }
+  .modal-content {
+    width: 80%;
+  }
 }
